@@ -160,6 +160,14 @@ const getStudioPage = async (studioId, offset) => {
   });
 };
 
+const getSearch = async (query, mode, language, offset) => {
+  if (!ScratchUtils.isValidOffset(offset)) return wrapError(new APIError.BadRequest('Invalid offset'));
+  const id = `search/${query}/${offset}`;
+  return computeIfMissing(id, HOUR * 6, () => {
+    return apiQueue.queuePromise(`https://api.scratch.mit.edu/search/projects?q=${query}&mode=${mode}&language=${language}&offset=${offset}&limit=40`);
+  });
+};
+
 const getThumbnail = async (projectId) => {
   if (!ScratchUtils.isValidIdentifier(projectId)) return wrapError(new APIError.BadRequest('Invalid project ID'));
   metrics.thumbnailRaw++;

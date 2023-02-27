@@ -80,6 +80,12 @@ app.get('/proxy/studios/:id/projects', (req, res) => {
   handleResponse(res, api.getStudioPage(req.params.id, offset));
 });
 
+app.get('/proxy/search/projects/:query/:mode/:language', (req, res) => {
+  const offset = req.query.get('offset') || '0';
+  res.type('application/json');
+  handleResponse(res, api.getSearch(req.params.id, offset));
+});
+
 app.get('/proxy/studios/:id/projectstemporary/:offset', (req, res) => {
   res.type('application/json');
   handleResponse(res, api.getStudioPage(req.params.id, req.params.offset));
