@@ -56,7 +56,7 @@ const handleResponse = (res, dbPromise) => {
       }
       res.send(data);
     })
-    .catch((error) => {
+    .catch((status, data, error) => {
       logger.error('' + ((error && error.stack) || error));
       res.status(500);
       res.type('text/plain');
@@ -80,10 +80,9 @@ app.get('/proxy/studios/:id/projects', (req, res) => {
   handleResponse(res, api.getStudioPage(req.params.id, offset));
 });
 
-app.get('/proxy/search/projects/:query/:mode/:language', (req, res) => {
-  const offset = req.query.get('offset') || '0';
+app.get('/proxy/search/projects/:q/:mode/:language', (req, res) => {
   res.type('application/json');
-  handleResponse(res, api.getSearch(req.params.id, offset));
+  handleResponse(res, api.getSearch(req.params.q, req.params.mode, req.params.language));
 });
 
 app.get('/proxy/studios/:id/projectstemporary/:offset', (req, res) => {

@@ -52,6 +52,19 @@ test('studio projects', async () => {
   expect(metrics.studioPages).toBe(2);
 });
 
+test('search', async () => {
+  const firstPage = await request.get('/proxy/search/projects?q=platformer&mode=popular&language=en&offset=0')
+    .expect('Content-Type', /json/)
+    .expect(200);
+  expect(Array.isArray(firstPage.body)).toBe(true);
+  expect(firstPage.body.length > 10).toBe(true);
+  expect(metrics.search).toBe(1);
+  const secondPage = await request.get('/proxy/search/projects?q=platformer&mode=popular&language=en&offset=1')
+    .expect(200);
+  expect(secondPage.body[0]).toEqual(firstPage.body[1]);
+  expect(metrics.search).toBe(2);
+});
+
 const expectImage = (res, format, width, height) => {
   return sharp(res.body)
     .metadata()

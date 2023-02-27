@@ -160,11 +160,11 @@ const getStudioPage = async (studioId, offset) => {
   });
 };
 
-const getSearch = async (query, mode, language, offset) => {
-  if (!ScratchUtils.isValidOffset(offset)) return wrapError(new APIError.BadRequest('Invalid offset'));
-  const id = `search/${query}/${offset}`;
+const getSearch = async (q, mode, language) => {
+  const id = `search/${q}/${mode}/${language}`;
+  metrics.search++;
   return computeIfMissing(id, HOUR * 6, () => {
-    return apiQueue.queuePromise(`https://api.scratch.mit.edu/search/projects?q=${query}&mode=${mode}&language=${language}&offset=${offset}&limit=40`);
+    return apiQueue.queuePromise(`https://api.scratch.mit.edu/search/projects?q=${q}&mode=${mode}&language=${language}&limit=40`);
   });
 };
 
@@ -275,6 +275,7 @@ module.exports = {
   getProjectMeta,
   getUser,
   getStudioPage,
+  getSearch,
   getThumbnail,
   getResizedThumbnail,
   getAvatar,

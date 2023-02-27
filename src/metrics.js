@@ -6,6 +6,7 @@ const metrics = {
   projects: 0,
   users: 0,
   studioPages: 0,
+  search: 0,
   thumbnailRaw: 0,
   thumbnails: 0,
   avatars: 0,

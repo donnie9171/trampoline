@@ -91,7 +91,7 @@ class RequestQueue {
           default: callback(new APIError.UpstreamError('Upstream returned status code: ' + res.status), null); break;
         }
 
-        logger.debug('RequestQueue: processed request: ms %d status %d next %d', this.timeSinceLastRequest(), res.status, this.timeUntilNextRequest());
+        logger.debug('RequestQueue: processed request: ms %d status %d next %d', this.timeSinceLastRequest(), res.status, this.timeUntilNextRequest())
       })
       .catch((err) => {
         callback(new APIError.InternalError(err.code + ': ' + err.message), null);
